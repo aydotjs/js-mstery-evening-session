@@ -1,37 +1,145 @@
 "use strict";
+const weekdays = ["mon", "tue", "wed", "thur", "fri", "sat"];
 const openingHours = {
-  thu: {
+  [weekdays[3]]: {
     open: 12,
     close: 22,
   },
-  fri: {
+  [weekdays[4]]: {
     open: 11,
     close: 23,
   },
-  sat: {
+  [weekdays[5]]: {
     open: 0, // Open 24 hours
     close: 24,
   },
 };
+
 const restaurant = {
   name: "Thrills Restaurant",
   location: "Broad Street, Lagos Island, Lagos State",
   categories: ["Swallow", "Vegetarian", "Organic"],
   starterMenu: ["Cassava", "Garri", "Beans"],
   mainMenu: ["Maize", "Plantain", "Bread"],
-  orderFood (starterMenuIndex, mainMenuIndex) {
+  orderFood(starterMenuIndex, mainMenuIndex) {
     return [this.starterMenu[starterMenuIndex], this.mainMenu[mainMenuIndex]];
   },
-  orderBeans () {
+  orderBeans() {
     console.log("Your beans is here");
   },
   openingHours,
 };
+//WORKING WITH STRINGS
+const sentence = "John is walking home";
+console.log(sentence[3])
+console.log(sentence.length)
+console.log(sentence.indexOf("running"))
+// console.log(sentence.lastIndexOf("i"))
+console.log(sentence.toUpperCase())
+console.log(sentence.replace("walking", "running"))
+console.log(sentence.charAt(-1))
+
+// const sub = sentence.slice(-1)
+
+// console.log(sub)
+
+
+
+//MAPS ITERATION
+// const questions = new Map([
+//   ["question", "What is the best programming language"],
+//   [1 , "Java"],
+//   [2 , "Ruby"],
+//   [3 , "Python"],
+//   [4 , "JS"],
+//   ["correct" , 4],
+//   [true, "you are correct"],
+//   [false, "you are wrong"]
+// ])
+
+// for(const [key, value] of questions){
+// console.log(`${key} : ${value}`)
+// }
+
+// const answer = Number(prompt("Enter your answer")) 
+// console.log(questions.get(questions.get("correct") === answer)) 
+
+
+
+// console.log()
+
+// const hoursMap = new Map(Object.entries(openingHours))
+// console.log(hoursMap)
+
+
+//MAPS
+// const canteen = new Map();
+// canteen.set("name", "Eat and Chill");
+// canteen.set(1, "New Layout, Awka");
+// canteen
+//   .set(2, "Bodija, Ibadan")
+//   .set("open", 11)
+//   .set("close", 22)
+//   .set(true, "We are Open")
+//   .set(false, "we are closed");
+// console.log(typeof canteen)
+
+// console.log(canteen.get("name"));
+// console.log(canteen.get(true));
+
+// const time = 21;
+// console.log(canteen.get(time > canteen.get("open") && time < canteen.get("close")))
+// console.log(canteen.has("categories")) 
+// canteen.delete(1)
+// console.log(canteen.size);
+// canteen.clear()
+// console.log(canteen);
+
+
+
+
+//Looping through objects
+// const properties = Object.keys(openingHours)
+
+// for(const day of properties){
+//   const openStr = `we are opened on ${day}`
+//   console.log(openStr)
+// }
+
+// const values = Object.values(openingHours);
+
+// for(const value of values){
+// console.log(value)
+// }
+
+// const arrayOfObject = Object.entries(openingHours);
+// for (const [key, { open, close }] of arrayOfObject) {
+//   console.log(`On ${key},we are open at ${open} and we close at ${close}`);
+// }
+
+//Sets
+// const arr = ["Rice","Beans", "Cassava", "Rice","Beans"]
+// const orderSet = new Set("Ciroma");
+// console.log(orderSet.size);
+// console.log(orderSet.has("Yam"));
+// orderSet.add("Bread")
+// orderSet.delete("Rice")
+// console.log(orderSet)
+// orderSet.clear()
+// console.log(orderSet)
+
+// for(const order of orderSet){
+//   console.log(order)
+// }
+
+// const arrOfWorkers = ["Gateman", "Receptionist", "Manager", "Gateman", "chef"]
+// const uniqueWorkers = [...new Set(arrOfWorkers)]
+// console.log(uniqueWorkers)
+
 //enhanced object literals
-console.log(restaurant)
+// console.log(restaurant)
 
-restaurant.orderBeans()
-
+// restaurant.orderBeans()
 
 //ARRAY DESTRUCTURING
 // const arr = [13, 20, 42, 6, 7, 9];
@@ -168,5 +276,3 @@ console.log("rest2", restaurant2);
 // for(const num of arr){
 //   console.log(num)
 // }
-
-
