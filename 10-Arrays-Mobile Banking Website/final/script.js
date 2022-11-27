@@ -3,31 +3,30 @@
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // MOBILE BANKING WEBSITE
-
 // Data
 const account1 = {
-  owner: 'Ayobami Owoeye',
+  owner: 'Ayobami Owoeye', //ao
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
 };
 
 const account2 = {
-  owner: 'Chima Francis',
+  owner: 'Chima Francis', //cf
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
 };
 
 const account3 = {
-  owner: 'Esther Ojile',
+  owner: 'Esther Ojile', //eo
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
 };
 
 const account4 = {
-  owner: 'Helen Nneka',
+  owner: 'Helen Nneka', //hn
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
@@ -61,10 +60,39 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+//CREATING HTML ELEMENTS
+const displayMovements = function (account) {
+  containerMovements.innerHTML = '';
+  account.forEach(function (mov, i) {
+    const typeOfMov = mov > 0 ? 'deposit' : 'withdrawal';
+    const htmlElement = `
+<div class="movements__row">
+<div class="movements__type movements__type--${typeOfMov}">${
+      i + 1
+    } ${typeOfMov}</div>
+<div class="movements__value">${mov} &#8358</div>
+</div>`;
+    containerMovements.insertAdjacentHTML('beforeend', htmlElement);
+  });
+};
+displayMovements(account1.movements);
+
+//COMPUTE USERNAME
+const computeUserName = function (accs) {
+  accs.forEach(acc => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name.at(0))
+      .join('');
+  });
+  console.log(accs);
+};
+computeUserName(accounts);
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
-
+/*
 const currencies = new Map([
   ['USD', 'United States dollar'],
   ['NGN', 'Nigerian Naira'],
@@ -72,5 +100,90 @@ const currencies = new Map([
 ]);
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+*/
+//SIMPLE ARRAY METHODS
+// let arr = ["a", "b", "c", "d", "e"]
+//slice
+// console.log(arr.slice(2))
+// console.log(arr)
+// console.log(newArr)
+// const arrCopy = arr.slice()
+// const arr2 = [...arr]
+// console.log(arrCopy)
+// console.log(arr2)
 
+//SPLICE METHOD
+//  console.log(arr.splice(0,1))
+//  console.log(arr)
+
+//REVERSE
+// let arr = ["a", "b", "c", "d", "e"]
+// arr.reverse()
+// console.log(arr)
+
+//CONCAT
+// let arr = ["a", "b", "c", "d", "e"]
+// const letters = ["f","g","h"]
+// console.log(arr.concat(letters))
+// console.log([...arr, ...letters])
+
+//JOIN
+// let arr = ["a", "b", "c", "d", "e"]
+//  console.log(arr.join("--"))
+
+//THE NEW AT METHOD
+// let arr = ["a", "b", "c", "d", "e"];
+// console.log(arr[arr.length -1])
+// console.log(arr.at(-1))
+// console.log("Ayo".at())
+
+//FOR EACH METHOD
+
+//for of loop
+/*
+for (const x of movements) {
+  if (x > 0) {
+    console.log(`you deposited ${x}`);
+  } else {
+    console.log(`you withdrew ${Math.abs(x)}`);
+  }
+}
+//forEach method
+console.log('------ for each method------');
+movements.forEach(function (mov, i, myArr) {
+  console.log(myArr)
+  if (mov > 0) {
+    console.log(`${i + 1}: you deposited ${mov}`);
+  } else {
+    console.log(`${i + 1 }: you withdrew ${Math.abs(mov)}`);
+  }
+});
+*/
+//DATA TRANSFORMATION
+//map, filter, reduce
+/*
+//MAP
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const usdToNaira = 750;
+const movementsInNaira = movements.map(function (mov) {
+  return mov * usdToNaira;
+});
+const movementsInNaira2 = movements.map(mov => mov * usdToNaira);
+console.log(movementsInNaira2);
+
+//FILTER
+const deposits = movements.filter(mov => mov > 0);
+console.log(deposits);
+
+//REDUCE
+const bal = movements.reduce((accumulator, mov) =>  accumulator + mov, 0);
+console.log(bal)
+*/
+//CHAINING METHODS
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const totalDepo = movements
+  .filter(mov => mov > 0)
+  .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${totalDepo} NGN`
+  console.log(totalDepo)
 /////////////////////////////////////////////////

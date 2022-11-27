@@ -123,4 +123,13 @@
 //CLOSURE
 const getData = function(){
   let dataSize = 500
+  return function(){
+    dataSize++
+    console.log(`${dataSize} MB`)
+  }
 }
+const subscriber = getData()
+subscriber()
+subscriber()
+subscriber()
+console.dir(subscriber)
