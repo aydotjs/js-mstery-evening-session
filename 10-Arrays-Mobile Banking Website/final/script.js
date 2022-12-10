@@ -72,7 +72,7 @@ const displayMovements = function (account) {
     } ${typeOfMov}</div>
 <div class="movements__value">${mov} &#8358</div>
 </div>`;
-    containerMovements.insertAdjacentHTML('beforeend', htmlElement);
+    containerMovements.insertAdjacentHTML('afterbegin', htmlElement);
   });
 };
 
@@ -155,7 +155,7 @@ btnTransfer.addEventListener('click', function (e) {
     currentAccount.movements.push(-amount);
     receiverAccount.movements.push(amount);
   }
-  
+
   displayMovements(currentAccount.movements);
   //display balance
   displayBalance(currentAccount);
@@ -164,8 +164,36 @@ btnTransfer.addEventListener('click', function (e) {
   inputTransferAmount.value = '';
   inputTransferTo.value = '';
 });
+//IMPLEMENTING LOAN FEATURE
+btnLoan.addEventListener("click", function(e){
+e.preventDefault()
+const amount = Number(inputLoanAmount.value)
+if(amount > 0 && currentAccount.movements.some((move) => move > amount * 0.1)){
+  currentAccount.movements.push(amount);
+  displayMovements(currentAccount.movements);
+  //display balance
+  displayBalance(currentAccount);
+  //display summary
+  computeSummary(currentAccount.movements);
+  inputLoanAmount.value = ""
+}
+})
 //IMPLEMENTING CLOSING OF USER ACCOUNT
-
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+  if (
+    currentAccount.username === inputCloseUsername.value &&
+    currentAccount.pin === Number(inputClosePin.value)
+  ) {
+    const index = accounts.findIndex(
+      account => account.username === currentAccount.username
+    );
+    accounts.splice(index, 1);
+    containerApp.style.opacity = 0;
+    inputClosePin.value = '';
+    inputCloseUsername.value = '';
+  }
+});
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -266,7 +294,7 @@ console.log(bal)
 
 //FIND METHOD
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-// const firstWithdrawal = movements.find(mov => mov < 0);
+// const firstWithdrawal = movements.find(mov =>  mov < 0);
 // console.log(firstWithdrawal);
 
 //FINDINDEX METHOD
@@ -274,9 +302,25 @@ console.log(bal)
 // const indexOfFirstWithdrawal = movements.findIndex(mov => mov < 0);
 // console.log(indexOfFirstWithdrawal)
 
-
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // const x = movements.splice();
 // console.log(x)
 // console.log(movements)
+
+// console.log(accounts)
+// const result = accounts.findIndex(function(x){
+// return x.owner === "Ayobami Owoeye"
+// })
+// console.log(result)
+//SOME AND EVERY METHOD
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// //  console.log(movements.includes(10000)) 
+// const result =  movements.every((move)=> move > 2000)
+// console.log(result)
+
+//FLAT AND FLAT MAP 
+// const nested = [[1,2,3,[7,9]], [4,5,6,[6,8]]]
+// const newarr = nested.flat(5)
+// console.log(nested)
+// console.log(newarr)
 /////////////////////////////////////////////////
