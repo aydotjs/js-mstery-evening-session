@@ -75,7 +75,6 @@ const displayMovements = function (account) {
     containerMovements.insertAdjacentHTML('beforeend', htmlElement);
   });
 };
-displayMovements(account1.movements);
 
 //COMPUTE USERNAME
 const computeUserName = function (accs) {
@@ -86,9 +85,87 @@ const computeUserName = function (accs) {
       .map(name => name.at(0))
       .join('');
   });
-  console.log(accs);
 };
 computeUserName(accounts);
+//DISPLAYING BALANCE
+const displayBalance = function (account) {
+  account.balance = account.movements.reduce(
+    (acc, move, index, arr) => acc + move,
+    0
+  );
+  labelBalance.textContent = `${account.balance} NGN`;
+};
+
+//COMPUTING SUMMARY
+const computeSummary = function (movements) {
+  const income = movements
+    .filter(move => move > 0)
+    .reduce((acc, move) => acc + move, 0);
+  labelSumIn.textContent = `${income} NGN`;
+  const withdrawals = movements
+    .filter(move => move < 0)
+    .reduce((acc, move) => acc + move, 0);
+  labelSumOut.textContent = `${Math.abs(withdrawals)} NGN`;
+  const interest = movements
+    .filter(move => move > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter(move => move >= 1)
+    .reduce((acc, mov, i, arr) => {
+      return acc + mov;
+    }, 0);
+  labelSumInterest.textContent = `${interest} NGN`;
+};
+
+//IMPLEMENTING LOGIN
+let currentAccount;
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    //display UI
+    containerApp.style.opacity = 1;
+    labelWelcome.textContent = `Welcome ${currentAccount.owner.split(' ')[0]}`;
+    //display movements
+    displayMovements(currentAccount.movements);
+    //display balance
+    displayBalance(currentAccount);
+    //display summary
+    computeSummary(currentAccount.movements);
+    inputLoginPin.value = '';
+    inputLoginUsername.value = '';
+    console.log(currentAccount);
+  }
+});
+
+//IMPLEMENTING TRANSFERS
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAccount = accounts.find(
+    account => account.username === inputTransferTo.value
+  );
+  if (
+    amount > 0 &&
+    receiverAccount &&
+    currentAccount.balance >= amount &&
+    currentAccount.username !== receiverAccount.username
+  ) {
+    currentAccount.movements.push(-amount);
+    receiverAccount.movements.push(amount);
+  }
+  
+  displayMovements(currentAccount.movements);
+  //display balance
+  displayBalance(currentAccount);
+  //display summary
+  computeSummary(currentAccount.movements);
+  inputTransferAmount.value = '';
+  inputTransferTo.value = '';
+});
+//IMPLEMENTING CLOSING OF USER ACCOUNT
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -180,10 +257,26 @@ const bal = movements.reduce((accumulator, mov) =>  accumulator + mov, 0);
 console.log(bal)
 */
 //CHAINING METHODS
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-const totalDepo = movements
-  .filter(mov => mov > 0)
-  .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${totalDepo} NGN`
-  console.log(totalDepo)
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const totalDepo = movements
+//   .filter(mov => mov > 0)
+//   .reduce((acc, mov) => acc + mov, 0);
+//   labelSumIn.textContent = `${totalDepo} NGN`
+//   console.log(totalDepo)
+
+//FIND METHOD
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const firstWithdrawal = movements.find(mov => mov < 0);
+// console.log(firstWithdrawal);
+
+//FINDINDEX METHOD
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const indexOfFirstWithdrawal = movements.findIndex(mov => mov < 0);
+// console.log(indexOfFirstWithdrawal)
+
+
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const x = movements.splice();
+// console.log(x)
+// console.log(movements)
 /////////////////////////////////////////////////
